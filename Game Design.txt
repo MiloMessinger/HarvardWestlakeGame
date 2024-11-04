@@ -21,9 +21,9 @@ User Interface:
 All users, students and teachers, can move around using WASD on a 2d map. Interactables, like desks, doors, or any other objects can be interacted with using F. There also should be an inventory players get, where they can hold items in their backpack. They have space to hold any item, that they can then use. There also should be a healthbar, as user's actions will remove health from other players. 
 
 Aesthetics:
-This game will be a 2d pixelated game, with bland colors until students do something which should be incredibly bright and colorful. In this way the students are motivated more to cause more chaos. Teachers and students should also stand out from the background to make them easy to see. 
+This game will be a 2d pixelated game, with bland colors, but interactions with the map will be incredibly bright and colorful. In this way the users are motivated to interact more from the map. Teachers and students should also stand out from the background to make them easy to see. 
 
 
 
-Goal: Give people a chance to do the things they always wanted to do (blowing up the school) with none of the consequence.
+Goal: Give people a chance to do the things they always wanted to do (blowing up the school) with none of the consequence. It also will be a fun competitive multiplayer game where people have to be sneaky, creative, and dramatic to win the game.
 Target Audience: Harvard Westlake Students or recent Alumni. Or just students in general.
