@@ -1,4 +1,4 @@
-# Harvard Westlake School Game Overview
+# Milo High School Game Overview
 
 ## Notice Before Game Creation (For Legal Reasons)
 Real students and teachers should not be represented in this game.
@@ -14,12 +14,9 @@ Students can evacuate the school in limitless ways, but solutions to escape the 
 - However, the teachers do not want the students to leave.
 - They try to find students' schemes (so schemes should take a while and should be easy to spot) and send students to the office if they get caught.
 - If a teacher is abusing their tools, however, they too will get sent to the office.
-- <span style="color:red">Comment: This game should probably not be that violent, especially student-on-teacher violence, so Harvard-Westlake does not get too mad.</span>
 
 ## Items
 Students and teachers should be able to collect items in an inventory throughout the game. This can include permitted items, like computers or school supplies, or forbidden items, like knives, paint, explosives, or anything else they can get their hands on.
-
-- <span style="color:red">Comment: The use of knives and explosives is potentially problematic. Instead, forbidden items could be phones, paint, cars, rocks, or other things.</span>
 
 Teachers try to prevent students from accessing prohibited items during the game and can confiscate items they find.
 
@@ -54,7 +51,6 @@ They win if they can cause a disaster large enough at the school, which could in
 There should be many opportunities to destroy the school so teachers can't just camp certain map locations.
 
 - Student health should be very low so any mistake may lead to death. They will have to be careful to not die when dealing with more dangerous items, or careful falling places. Things like electricity or fire would kill them fairly quickly.
-- <span style="color:red">Comment: "Low health" could be elaborated on. This could mean that a teacher seeing the student results in death, or the student being hit by a teacher results in death.</span>
 
 ## Teachers
 Teachers are not able to destroy the school and are unable to possess forbidden items.
@@ -94,4 +90,4 @@ This game will be a 2D pixelated game with bland colors, but interactions with t
 The game aims to give players a chance to do things they've always imagined doing (like blowing up the school) with no real-life consequences. It will be a fun, competitive multiplayer game where people have to be sneaky, creative, and dramatic to win.
 
 ## Target Audience
-Harvard Westlake Students or recent Alumni, or students in general.
+Students or recent alumni
