@@ -4,11 +4,10 @@
 Real students and teachers should not be represented in this game.
 
 ## Game Overview
-In my game, users will play as students or teachers at Harvard Westlake School. The objective of the students is to evacuate the school and leave early, while the teachers try to keep them in the school.
+In my game, users will play as students or teachers at a High School. The objective of the students is to evacuate the school and leave early, while the teachers try to keep them in the school.
 
 - Matches will have 10-20 players and will last around 10-20 minutes.
 - There should be far fewer teachers than students, with around a 1:5 teacher-to-student ratio.
-- <span style="color:red">Comment: There could be different size lobbies - 5 students, 1 teacher; 10 students, 2 teachers; 15 students, 3 teachers; 20 students, 4 teachers.</span>
 
 Students can evacuate the school in limitless ways, but solutions to escape the school should need to be pretty creative to work.
 
@@ -31,17 +30,13 @@ Teachers try to prevent students from accessing prohibited items during the game
 The game should feature a moderately accurate 2D model of the HW upper school.
 
 - Interactives can be found across the entire map, including school supplies, food, power terminals, gas lines, doors, school vehicles, lights, whiteboards, and much more.
+- These interactives would change the map for everyone, so whiteboards can be seen by everyone, teachers could investigate open doors, multiple people could get into vechicles, gas lines would cause rooms to light on fire, power sockets let people use power tools, etc.
 - Having as many interactions with the map is essential to make this game engaging.
-- <span style="color:red">Comment: It is somewhat unclear how interactives act. For example, food could be necessary because the students could die of hunger, power can be used to charge electronics, gas can be used to blow up certain areas, etc.</span>
 
 Some aspects of the game should also be randomly generated.
-
 - For instance, the items within a teacher's desk should change between games.
-- <span style="color:red">Comment: The interactives could be the RNG elements, as food or supplies can spawn randomly every game.</span>
 
 People should be able to go into buildings but not see into buildings while outside.
-
-- <span style="color:red">Comment: The interactive element of the game is a great idea that would make the game very captivating.</span>
 
 ## Students
 Students have assignments that they need to complete, which justifies them taking certain supplies out of rooms.
@@ -58,7 +53,7 @@ They win if they can cause a disaster large enough at the school, which could in
 
 There should be many opportunities to destroy the school so teachers can't just camp certain map locations.
 
-- Student health should be very low so any mistake may lead to death.
+- Student health should be very low so any mistake may lead to death. They will have to be careful to not die when dealing with more dangerous items, or careful falling places. Things like electricity or fire would kill them fairly quickly.
 - <span style="color:red">Comment: "Low health" could be elaborated on. This could mean that a teacher seeing the student results in death, or the student being hit by a teacher results in death.</span>
 
 ## Teachers
@@ -67,7 +62,7 @@ Teachers are not able to destroy the school and are unable to possess forbidden 
 - However, they have several advantages over students. They should move slightly faster than students and can send students to the office.
 - Students should be able to slow teachers down. Examples may include barricading a classroom, using chemicals, leaving food on the floor, glue, staples, etc.
 - Teachers should have significantly more health than students (4x).
-- <span style="color:red">Comment: Are teachers AI or player-controlled? They should probably be player-controlled to increase strategy and complexity of the game (if that was not already the plan).</span>
+- Teachers are still player controlled.
 
 ## The Office
 Students and teachers who "die" respawn in the office. Additionally, people sent to the office will end up here.
@@ -81,7 +76,6 @@ All users, students and teachers, can move around using WASD on a 2D map.
 - Interactables, like desks, doors, or other objects, can be interacted with using F.
 - Players also get an inventory where they can hold items in their backpack. They have space to hold any item, which they can then use.
 - There should also be a health bar, as user actions will remove health from other players.
-- <span style="color:red">Comment: There could also be a food bar that decreases health in line with the food interactables.</span>
 
 ## Aesthetics
 This game will be a 2D pixelated game with bland colors, but interactions with the map will be incredibly bright and colorful.
