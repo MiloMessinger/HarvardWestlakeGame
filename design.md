@@ -60,6 +60,8 @@ Teachers are not able to destroy the school and are unable to possess forbidden 
 - Teachers should have significantly more health than students (4x).
 - Teachers are still player controlled.
 
+The teachers win if the students do not win within the 15 minutes alloted to them.
+
 ## The Office
 Students and teachers who "die" respawn in the office. Additionally, people sent to the office will end up here.
 
