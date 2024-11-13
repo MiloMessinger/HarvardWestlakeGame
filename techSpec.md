@@ -30,36 +30,38 @@ Architecture:
         Base class for both students and teachers.
     Variables:
         name: Player’s name (final)
-        role: Enum for role (Student or Teacher)
-        health: Player health value
+        role: Enum for role (Student or Teacher) (final)
+        maxHealth: max amount of health for this player (final)
+        health: current player health value
         inventory: Array of items in the player’s possession
         position: (x, y) coordinates on the map
         speed: Movement speed  (final)
     Methods:
-        move(): Moves the player based on WASD input
+        move(int direction): Moves the player based on WASD input. the int is measured in degrees like polar coordinates. it has to be a multiple of 45 (so you can only go orthogonally or diagonally. no 30 degree angle type shit)
         interact(): Interacts with interactable objects using the F key
         pickUpItem(item): Adds an item to the player’s inventory
         dropItem(item): Drops an item in a player's inventory
         useItem(item): Uses an item from the player’s inventory
-        takeDamage(amount): Reduces health based on interactions or events
         die(): Handles player death, respawn logic, and sends to the office
 3. Student (Inherits from Player)
     Purpose:
         Represents a student character.
     Variables:
-        assignments: List of assignments the student must complete
+        assignments: Array of assignment objects the student must complete
         classes: 2D array of each class a student has; one row contains the room a class is in and the other row contains the time that they must be there by (the array also contains free blocks and breaks, so that you can tell when a class has ended from the fact that the break has started.)
     Methods:
         isInOffice: Boolean indicating whether the player is in the office
         completeAssignment(): Marks assignments as complete and rewards with credits or items
-        createDisaster(item): Triggers a disaster event (e.g., fire, power outage)
         alertEscape(): Checks if the student can escape the school and alerts student (Like, if they've started a disaster and can now win, it tells the student that they can now win)
-        craft(): Crafts a new item using items in inventory.
+        craft(item[]): Crafts a new item using items in inventory.
+        goToOffice(): Screen filling out detention form, wait 30 seconds as they write, then respawn in the office
+        draw(): Allows student to draw on the screen. Only available in the office.
+        erase(): allows student to erase their writing. Only available in the office
 4. Teacher (Inherits from Player)
     Purpose:
         Represents a teacher character.
     Variables:
-        patrolPath: Path that the teacher patrols (final)
+        patrolPath: linked list of coordinates representing path that the teacher patrols (final)
         mainClassroom: Area where teacher spends most of their time while teaching students (final)
     Methods:
         patrol(): Moves the teacher in the patrol route until done or interrupted
@@ -68,17 +70,7 @@ Architecture:
         confiscateItem(item): Removes forbidden items from students
         sendToOffice(player): Sends the student or teacher to the office
         assign(assignment, student[]): Gives an assignment to a number of students
-5. Office
-    Purpose:
-        Manages logic for students who are sent to the office (either for dying or being caught).
-    Variables:
-        playersInOffice: List of players currently in the office
-        detentionTimer: Countdown for the 30-second detention wait
-    Methods:
-        addPlayerToOffice(student): Adds a student to the office
-        removePlayerFromOffice(student): Removes the student after their detention is complete
-        startDetentionTimer(): Starts the 30-second wait
-6. Item
+5. Item
     Purpose:    
         Represents items in the game, both allowed and forbidden.
     Variables:
@@ -87,7 +79,7 @@ Architecture:
         mods: Array of booleans indicating if the item has any modifications (damaged, burning, makeshift, etc)
     Methods:
         N/A
-7. Map
+6. Map
     Purpose:
         Represents the map of the school, including interactable objects and player positions.
     Variables:
@@ -95,29 +87,28 @@ Architecture:
         interactables: Array of objects that players can interact with (e.g., desks, power terminals)
         entrances: Points where players can enter or exit rooms or buildings (final)
     Methods:
-        generateMap(): Randomly generates parts of the map (e.g., desks, locked rooms)
-        updateInteractivity(): Updates the interactable objects that players can interact with
+        generateMap(): Randomly generates details of the map (e.g., location of desks, locked rooms, etc)
         triggerEvent(event): Triggers specific events like a fire, gas leak, or power outage
         movePlayerToRoom(player, room): Moves the player into a new room or space on the map
-8. Room
+7. Room
     Purpose:
         Represents each room. Each room is rectangular for simplicity.
     Variables:
         corners: Array of size 4. Each index has a coordinate, one for each corner of the room.
     Methods:
         getCorners(): Returns the corners.
-9. Interactable
+8. Interactable
     Purpose:
-        Represents an interactive object on the map that players can interact with.
+        Represents an interactive object on the map that players can interact with, but not pick up.
     Variables:
-        type: Type of object (e.g., door, desk, power socket) (final)
+        type: Type of object (e.g., door, desk, power socket). could prob just be an integer, and we could remember that 7 means it's a door or whatever (final)
         location: (x, y) coordinates for positioning
         isActive: Boolean indicating if the interactable object is active
     Methods:
         activate(): Activates the interactable object (e.g., opening a door, starting a power tool)
         deactivate(): Deactivates the object
-        onInteract(player): Defines the interaction logic when a player interacts with the object (e.g., use a power tool, open a door)
-10. Assignment
+        onInteract(player, type): Defines the interaction logic when a player interacts with the object (e.g., use a power tool, open a door)
+9. Assignment
     Purpose:
         Represents an assignment that teachers give and students complete.
     Variables:
@@ -126,7 +117,7 @@ Architecture:
     Methods:
         isCompleted(): checks if all of the booleans in completion are true
         getRequirements(): Returns all of the requirements needed to complete the assignment.
-11. UIManager
+10. UIManager // I don't really know how coding the UI of a game works yet, so this whole class might be useless. Not gonna to delete it because it's better safe than sorry.
     Purpose:
         Manages the game's user interface (UI).
     Variables:
@@ -138,7 +129,7 @@ Architecture:
         updateInventory(player): Updates the inventory UI display
         updateTimer(timeLeft): Updates the countdown timer on the UI
         showMessage(message): Displays messages (e.g., "You have been caught!")
-12. EventManager
+11. EventManager
     Purpose:
         Handles random or scripted events in the game world (e.g., disasters, item changes).
     Variables:
