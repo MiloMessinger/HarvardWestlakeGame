@@ -68,7 +68,7 @@ Architecture:
         teach(student[]): Keeps students in classroom and assigns them tasks for a minute or two.
         catchStudent(student): Catches students if they are caught in a scheme or breaking rules
         confiscateItem(item): Removes forbidden items from students
-        sendToOffice(player): Sends the student or teacher to the office
+        sendToOffice(student): Sends the student to the office
         assign(assignment, student[]): Gives an assignment to a number of students
 5. Item
     Purpose:    
@@ -137,3 +137,5 @@ Architecture:
     Methods:
         triggerRandomEvent(): Triggers a random event that impacts the map (e.g., fire breaking out in a building)
         triggerCustomEvent(event): Triggers a custom event based on game logic (e.g., disaster caused by a student)
+
+FIGMA: https://www.figma.com/board/x58rgAi1HoxderWDKChwNY/Milo's-School-Escape?node-id=0-1&t=TYYgUrB1u4bhd7cN-1
