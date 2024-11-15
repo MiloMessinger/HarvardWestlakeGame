@@ -1,5 +1,16 @@
 
-<!-- all of these items have a priority of P2 -->
+<!-- 
+-
+-
+-
+-
+all of these items have a priority of P2
+-
+-
+-
+-
+-
+ -->
 
 1. **GameManager**
 
