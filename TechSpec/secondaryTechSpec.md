@@ -20,7 +20,7 @@ all of these items have a priority of P2
 
 ---
 
-3. **Player (Base Class)**
+2. **Player (Base Class)**
 
     *Methods:*
 
@@ -29,7 +29,7 @@ all of these items have a priority of P2
 
 ---
 
-5. **Student (Inherits from Player)**
+3. **Student (Inherits from Player)**
 
     *Variables:*
 
@@ -46,7 +46,7 @@ all of these items have a priority of P2
 
 ---
 
-8. **Teacher (Inherits from Player)**
+4. **Teacher (Inherits from Player)**
 
     *Variables:*
 
@@ -62,7 +62,7 @@ all of these items have a priority of P2
 
 ---
 
-10. **Item**
+5. **Item**
 
     *Variables:*
 
@@ -70,7 +70,7 @@ all of these items have a priority of P2
 
 ---
 
-12. **Map**
+6. **Map**
 
     *Methods:*
 
@@ -78,7 +78,7 @@ all of these items have a priority of P2
 
 ---
 
-16. **Interactable**
+7. **Interactable**
 
     *Variables:*
 
@@ -90,7 +90,7 @@ all of these items have a priority of P2
 
 ---
 
-18. **Assignment**
+8. **Assignment**
 
     *Variables:*
 
@@ -104,7 +104,7 @@ all of these items have a priority of P2
 
 ---
 
-19. **UIManager**
+9. **UIManager**
 
     *Variables:*
 
@@ -117,7 +117,7 @@ all of these items have a priority of P2
 
 ---
 
-20. **EventManager**
+10. **EventManager**
 
     *Variables:*
 

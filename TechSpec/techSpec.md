@@ -1,16 +1,4 @@
-Techology Stack:
-
-The best option I found seemed to be Construct 3.
-
-Pros: So, there's gonna be multiple people coding this. If there was just one, I could choose which game engine to use to tailor to that person's skills, but since there's gonna be a bunch, I think it's best to assume the worst of everyone, and imagine that they, like me, do not know how to code javascript or html. In that case, Construct 3 is great because you don't have to do any coding. Meanwhile, even if you're an Edwin or a Milo that actually knows how to use html and js, Construct 3 allows you to add in code, which is awesome. (PS: I know that AI exists and would be doing most of the coding, but AI doesn't do things perfectly and if you don't know how to code in html or js then it's really hard to debug in html or js). Also, C3 allows you to look at what you're making as you make it and seems intuitive to use. And it's the game engine that There Is No Game was made on, which is cool. It's also apparently powerful and fast. They did tests with how many sprites different devices could handle, and the numbers they got seem pretty big to me.
-
-Cons: No cons??? Based. (Except that some people might not want to figure out how to use the Construct 3 UI. "Some people" includes me. But it's better than figuring out how to debug code in a language I can't code in.)
-
-
-
-# TechSpec.md
-
-1. **GameManager** [P0]
+# TechSpec.md1. **GameManager** [P0]
 
     *Purpose:*
 
@@ -34,7 +22,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-3. **Player (Base Class)** [P0]
+2. **Player (Base Class)** [P0]
 
     *Purpose:*
 
@@ -61,7 +49,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-5. **Student (Inherits from Player)** [P0]
+3. **Student (Inherits from Player)** [P0]
 
     *Purpose:*
 
@@ -84,7 +72,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-8. **Teacher (Inherits from Player)** [P0]
+4. **Teacher (Inherits from Player)** [P0]
 
     *Purpose:*
 
@@ -106,7 +94,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-10. **Item** [P0]
+5. **Item** [P0]
 
     *Purpose:*
 
@@ -120,7 +108,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-12. **Map** [P0]
+6. **Map** [P0]
 
     *Purpose:*
 
@@ -140,7 +128,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-14. **Room** [P1]
+7. **Room** [P1]
 
     *Purpose:*
 
@@ -156,7 +144,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-16. **Interactable** [P1]
+8. **Interactable** [P1]
 
     *Purpose:*
 
@@ -176,7 +164,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-18. **Assignment** [P2]
+9. **Assignment** [P2]
 
     *Purpose:*
 
@@ -194,7 +182,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-19. **UIManager** [P1]
+10. **UIManager** [P1]
 
     *Purpose:*
 
@@ -215,7 +203,7 @@ Cons: No cons??? Based. (Except that some people might not want to figure out ho
 
 ---
 
-20. **EventManager** [P1]
+11. **EventManager** [P1]
 
     *Purpose:*
 
