@@ -32,15 +32,28 @@ class GameManager {
 
     setupInputs() {
         window.addEventListener('keydown', (e) => {
-            console.log("Key pressed:", e.key);
             this.keys[e.key.toLowerCase()] = true;
+            
+            // Hotbar selection
+            if (e.key === '1' || e.key === '2') {
+                this.localPlayer.selectHotbarSlot(parseInt(e.key) - 1);
+            }
+            
+            // Inventory toggle
             if (e.key.toLowerCase() === 'e') {
-                console.log("Toggling inventory");
-                if (this.localPlayer) {
-                    this.localPlayer.toggleInventory();
+                this.localPlayer.toggleInventory();
+            }
+            
+            // Item use
+            if (e.key.toLowerCase() === 'f') {
+                if (this.localPlayer.getCurrentItem()) {
+                    this.localPlayer.useCurrentItem();
+                } else {
+                    this.handleInteraction();
                 }
             }
         });
+
         window.addEventListener('keyup', (e) => {
             this.keys[e.key.toLowerCase()] = false;
         });

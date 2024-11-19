@@ -1,97 +1,131 @@
 class Player {
-    constructor(x, y, role) {
+    constructor(x, y, role, username = '') {
         this.x = x;
         this.y = y;
         this.role = role;
+        this.username = username;
         this.size = 20;
         this.speed = role === 'teacher' ? 5 : 4;
         
-        this.hotbar = new Array(2).fill(null);
+        // Updated inventory system
+        this.hotbar = [null, null]; // Always 2 slots
         this.inventory = new Array(role === 'teacher' ? 6 : 12).fill(null);
         this.selectedSlot = 0;
         this.isInventoryOpen = false;
         
         this.lastPosition = {x, y};
-        console.log("Player created:", this);
     }
 
-    move(moveX, moveY) {
-        this.lastPosition.x = this.x;
-        this.lastPosition.y = this.y;
-        
-        this.x += moveX * this.speed;
-        this.y += moveY * this.speed;
-        console.log("Player moved to:", this.x, this.y);
+    selectHotbarSlot(slot) {
+        if (slot >= 0 && slot < this.hotbar.length) {
+            this.selectedSlot = slot;
+            return true;
+        }
+        return false;
     }
 
-    undoMove() {
-        this.x = this.lastPosition.x;
-        this.y = this.lastPosition.y;
+    getCurrentItem() {
+        return this.hotbar[this.selectedSlot];
     }
 
-    toggleInventory() {
-        console.log("Toggling inventory, current state:", this.isInventoryOpen);
-        this.isInventoryOpen = !this.isInventoryOpen;
-        console.log("New inventory state:", this.isInventoryOpen);
+    pickUpItem(itemId) {
+        const item = Item.getItem(itemId);
+        if (!item) return false;
+
+        // Teachers can't pick up forbidden items
+        if (this.role === 'teacher' && item.category === Item.categories.FORBIDDEN) {
+            return false;
+        }
+
+        // Try hotbar first
+        const emptyHotbarSlot = this.hotbar.findIndex(slot => slot === null);
+        if (emptyHotbarSlot !== -1) {
+            this.hotbar[emptyHotbarSlot] = itemId;
+            return true;
+        }
+
+        // Try inventory if hotbar is full
+        const emptyInvSlot = this.inventory.findIndex(slot => slot === null);
+        if (emptyInvSlot !== -1) {
+            this.inventory[emptyInvSlot] = itemId;
+            return true;
+        }
+
+        return false;
+    }
+
+    useCurrentItem() {
+        const itemId = this.getCurrentItem();
+        if (itemId) {
+            const item = Item.getItem(itemId);
+            if (item) {
+                return item.use(this);
+            }
+        }
+        return false;
     }
 
     drawUI(ctx) {
         const slotSize = 40;
         const margin = 5;
-        
-        // Draw hotbar
         const startX = (ctx.canvas.width - (slotSize + margin) * this.hotbar.length) / 2;
         const startY = ctx.canvas.height - 60;
 
-        // Set font before drawing text
-        ctx.font = '16px Arial';
-
-        this.hotbar.forEach((item, i) => {
-            // Draw slot background
+        // Draw hotbar
+        this.hotbar.forEach((itemId, i) => {
+            // Slot background
             ctx.fillStyle = '#333';
             ctx.fillRect(startX + i * (slotSize + margin), startY, slotSize, slotSize);
             
-            // Draw slot border
+            // Selected slot highlight
             ctx.strokeStyle = i === this.selectedSlot ? '#ff0' : '#fff';
             ctx.lineWidth = 2;
             ctx.strokeRect(startX + i * (slotSize + margin), startY, slotSize, slotSize);
             
             // Draw item if exists
-            if (item) {
-                ctx.fillStyle = '#fff';
-                ctx.fillText(item, startX + i * (slotSize + margin) + 5, startY + 25);
+            if (itemId) {
+                const item = Item.getItem(itemId);
+                if (item) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(item.name, startX + i * (slotSize + margin) + 5, startY + 25);
+                }
             }
+
+            // Draw slot number
+            ctx.fillStyle = '#fff';
+            ctx.font = '10px Arial';
+            ctx.fillText(`${i + 1}`, startX + i * (slotSize + margin) + 2, startY + 12);
         });
 
         // Draw inventory when open
         if (this.isInventoryOpen) {
-            console.log("Drawing inventory");
-            
-            // Draw background
+            // Semi-transparent background
             ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
             ctx.fillRect(200, 100, 400, 300);
-            
+
             // Draw inventory slots
             const invColumns = 6;
-            const invStartX = 220;
-            const invStartY = 120;
-
-            this.inventory.forEach((item, i) => {
-                const x = invStartX + (i % invColumns) * (slotSize + margin);
-                const y = invStartY + Math.floor(i / invColumns) * (slotSize + margin);
+            this.inventory.forEach((itemId, i) => {
+                const x = 220 + (i % invColumns) * (slotSize + margin);
+                const y = 120 + Math.floor(i / invColumns) * (slotSize + margin);
                 
-                // Draw slot background
+                // Slot background
                 ctx.fillStyle = '#333';
                 ctx.fillRect(x, y, slotSize, slotSize);
                 
-                // Draw slot border
+                // Slot border
                 ctx.strokeStyle = '#fff';
                 ctx.strokeRect(x, y, slotSize, slotSize);
                 
                 // Draw item if exists
-                if (item) {
-                    ctx.fillStyle = '#fff';
-                    ctx.fillText(item, x + 5, y + 25);
+                if (itemId) {
+                    const item = Item.getItem(itemId);
+                    if (item) {
+                        ctx.fillStyle = '#fff';
+                        ctx.font = '12px Arial';
+                        ctx.fillText(item.name, x + 5, y + 25);
+                    }
                 }
             });
         }
