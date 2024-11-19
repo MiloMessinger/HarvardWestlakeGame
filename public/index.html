@@ -1,23 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>School Escape Game</title>
+    <title>School Game</title>
     <style>
         * { margin: 0; padding: 0; }
         html, body { 
             width: 100%;
             height: 100%;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
         canvas {
             display: block;
+            filter: blur(5px);
+        }
+        .login-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .title {
+            color: white;
+            font-size: 48px;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .login-box input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-box button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-box button:hover {
+            background: #45a049;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
+    <div id="loginOverlay" class="login-overlay">
+        <h1 class="title">School Game</h1>
+        <div class="login-box">
+            <input type="text" id="username" placeholder="Enter username">
+            <br>
+            <button onclick="startGame()">Play</button>
+        </div>
+    </div>
     <script src="js/map.js"></script>
     <script src="js/player.js"></script>
     <script src="js/game.js"></script>
+    <script>
+        let game;
+        
+        window.onload = () => {
+            game = new GameManager();
+            game.pause();
+        };
+
+        function startGame() {
+            const username = document.getElementById('username').value;
+            if (username.trim() !== '') {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('gameCanvas').style.filter = 'none';
+                game.start(username);
+            }
+        }
+    </script>
 </body>
 </html>

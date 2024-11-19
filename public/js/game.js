@@ -1,28 +1,28 @@
 class GameManager {
     constructor() {
-        console.log("Starting game initialization");
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
+        this.isPaused = true;
+        this.username = '';
         
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
         
         this.map = new Map();
         const spawnPoint = this.map.getRandomSpawnPoint();
-        console.log("Spawn point:", spawnPoint);
-        
         this.localPlayer = new Player(spawnPoint.x, spawnPoint.y, Math.random() < 0.2 ? 'teacher' : 'student');
-        console.log("Player created at:", this.localPlayer.x, this.localPlayer.y);
         this.players = [this.localPlayer];
 
         this.cameraX = 0;
         this.cameraY = 0;
-        
         this.keys = {};
         this.setupInputs();
-        
-        console.log("Starting game loop");
         this.gameLoop();
+    }
+
+    start(username) {
+        this.username = username;
+        this.isPaused = false;
     }
 
     resizeCanvas() {
