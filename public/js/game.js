@@ -1,9 +1,8 @@
 class GameManager {
     constructor() {
+        console.log("Starting game initialization");
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
-        this.isPaused = true;
-        this.username = '';
         
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
@@ -15,14 +14,23 @@ class GameManager {
 
         this.cameraX = 0;
         this.cameraY = 0;
+        
         this.keys = {};
+        this.isPaused = true;  // Start paused
         this.setupInputs();
         this.gameLoop();
     }
 
     start(username) {
-        this.username = username;
+        this.localPlayer.username = username;
         this.isPaused = false;
+        console.log("Game started with username:", username);
+    }
+
+    pause() {
+        this.isPaused = true;
+        // Clear all pressed keys when pausing
+        this.keys = {};
     }
 
     resizeCanvas() {
@@ -32,30 +40,38 @@ class GameManager {
 
     setupInputs() {
         window.addEventListener('keydown', (e) => {
-            this.keys[e.key.toLowerCase()] = true;
-            
-            // Hotbar selection
-            if (e.key === '1' || e.key === '2') {
-                this.localPlayer.selectHotbarSlot(parseInt(e.key) - 1);
-            }
-            
-            // Inventory toggle
-            if (e.key.toLowerCase() === 'e') {
-                this.localPlayer.toggleInventory();
-            }
-            
-            // Item use
-            if (e.key.toLowerCase() === 'f') {
-                if (this.localPlayer.getCurrentItem()) {
-                    this.localPlayer.useCurrentItem();
-                } else {
-                    this.handleInteraction();
+            // Only handle game inputs if not paused
+            if (!this.isPaused) {
+                this.keys[e.key.toLowerCase()] = true;
+                
+                // Handle hotbar selection
+                if (e.key === '1' || e.key === '2') {
+                    e.preventDefault();
+                    this.localPlayer.selectHotbarSlot(parseInt(e.key) - 1);
+                }
+                
+                // Handle backpack toggle
+                if (e.key.toLowerCase() === 'e') {
+                    e.preventDefault();
+                    this.localPlayer.toggleBackpack();
+                }
+                
+                // Handle interaction
+                if (e.key.toLowerCase() === 'f') {
+                    e.preventDefault();
+                    if (this.localPlayer.getCurrentItem()) {
+                        this.localPlayer.useCurrentItem();
+                    } else {
+                        this.handleInteraction();
+                    }
                 }
             }
         });
 
         window.addEventListener('keyup', (e) => {
-            this.keys[e.key.toLowerCase()] = false;
+            if (!this.isPaused) {
+                this.keys[e.key.toLowerCase()] = false;
+            }
         });
     }
 
@@ -83,31 +99,21 @@ class GameManager {
     }
 
     draw() {
-        if (!this.ctx) {
-            console.error("No context available");
-            return;
-        }
-
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         this.ctx.save();
         this.ctx.translate(Math.floor(this.cameraX), Math.floor(this.cameraY));
         
-        // Draw map
+        // Draw map with its own context state
         this.map.draw(this.ctx);
         
-        // Draw player
-        console.log("Drawing player at:", this.localPlayer.x, this.localPlayer.y);
-        this.ctx.fillStyle = this.localPlayer.role === 'student' ? '#0000FF' : '#FF0000';
-        this.ctx.fillRect(
-            Math.floor(this.localPlayer.x - this.localPlayer.size/2),
-            Math.floor(this.localPlayer.y - this.localPlayer.size/2),
-            this.localPlayer.size,
-            this.localPlayer.size
-        );
+        // Draw all players with their usernames
+        this.players.forEach(player => {
+            player.draw(this.ctx, {x: this.cameraX, y: this.cameraY});
+        });
         
         this.ctx.restore();
-
+        
         // Draw UI elements after restore
         this.localPlayer.drawUI(this.ctx);
     }

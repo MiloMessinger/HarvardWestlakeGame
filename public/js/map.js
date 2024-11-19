@@ -49,24 +49,43 @@ class Map {
     }
 
     draw(ctx) {
+        // Save the context state at the start
+        ctx.save();
+        
+        // Set line width for all map elements
+        ctx.lineWidth = 1;  // Make sure this is explicitly set
+
         // Draw rooms
         ctx.fillStyle = '#ddd';
+        ctx.strokeStyle = '#000';  // Explicit stroke style for rooms
         this.rooms.forEach(room => {
+            ctx.beginPath();  // Start a new path for each room
             ctx.fillRect(room.x, room.y, room.width, room.height);
             ctx.strokeRect(room.x, room.y, room.width, room.height);
+            ctx.closePath();
         });
 
         // Draw hallways
         ctx.fillStyle = '#eee';
+        ctx.strokeStyle = '#000';  // Explicit stroke style for hallways
         this.hallways.forEach(hall => {
+            ctx.beginPath();  // Start a new path for each hallway
             ctx.fillRect(hall.x, hall.y, hall.width, hall.height);
             ctx.strokeRect(hall.x, hall.y, hall.width, hall.height);
+            ctx.closePath();
         });
 
         // Draw interactables
         ctx.fillStyle = '#999';
+        ctx.strokeStyle = '#000';  // Explicit stroke style for interactables
         this.interactables.forEach(obj => {
+            ctx.beginPath();  // Start a new path for each interactable
             ctx.fillRect(obj.x - 10, obj.y - 10, 20, 20);
+            ctx.strokeRect(obj.x - 10, obj.y - 10, 20, 20);
+            ctx.closePath();
         });
+
+        // Restore the context state
+        ctx.restore();
     }
 }
