@@ -1,47 +1,45 @@
 class GameManager {
     constructor() {
-        console.log("GameManager constructor starting...");
-        
+        console.log("Starting game initialization");
         this.canvas = document.getElementById('gameCanvas');
-        if (!this.canvas) {
-            console.error("Canvas element not found!");
-            return;
-        }
-        console.log("Canvas found:", this.canvas);
-
         this.ctx = this.canvas.getContext('2d');
-        if (!this.ctx) {
-            console.error("Could not get canvas context!");
-            return;
-        }
-        console.log("Canvas context acquired");
+        
+        this.resizeCanvas();
+        window.addEventListener('resize', () => this.resizeCanvas());
+        
+        this.map = new Map();
+        const spawnPoint = this.map.getRandomSpawnPoint();
+        console.log("Spawn point:", spawnPoint);
+        
+        this.localPlayer = new Player(spawnPoint.x, spawnPoint.y, Math.random() < 0.2 ? 'teacher' : 'student');
+        console.log("Player created at:", this.localPlayer.x, this.localPlayer.y);
+        this.players = [this.localPlayer];
 
-        // Draw background to verify canvas is working
-        this.ctx.fillStyle = '#eee';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.cameraX = 0;
+        this.cameraY = 0;
         
-        this.players = [];
-        console.log("Creating local player...");
-        this.localPlayer = new Player(400, 300, 'student');
-        console.log("Local player created:", this.localPlayer);
-        
-        this.players.push(this.localPlayer);
-        console.log("Player added to players array. Total players:", this.players.length);
-        
-        // Input handling
         this.keys = {};
         this.setupInputs();
-        console.log("Input handlers set up");
         
-        // Start game loop
-        console.log("Starting game loop...");
+        console.log("Starting game loop");
         this.gameLoop();
+    }
+
+    resizeCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
     }
 
     setupInputs() {
         window.addEventListener('keydown', (e) => {
+            console.log("Key pressed:", e.key);
             this.keys[e.key.toLowerCase()] = true;
-            console.log("Key pressed:", e.key.toLowerCase());
+            if (e.key.toLowerCase() === 'e') {
+                console.log("Toggling inventory");
+                if (this.localPlayer) {
+                    this.localPlayer.toggleInventory();
+                }
+            }
         });
         window.addEventListener('keyup', (e) => {
             this.keys[e.key.toLowerCase()] = false;
@@ -49,29 +47,56 @@ class GameManager {
     }
 
     update() {
-        // Handle movement based on WASD keys
-        if (this.keys['w'] && this.keys['d']) {
-            this.localPlayer.move(315);
-            console.log("Moving NW", this.localPlayer.x, this.localPlayer.y);
+        let moveX = 0;
+        let moveY = 0;
+        
+        if (this.keys['w'] || this.keys['arrowup']) moveY -= 1;
+        if (this.keys['s'] || this.keys['arrowdown']) moveY += 1;
+        if (this.keys['a'] || this.keys['arrowleft']) moveX -= 1;
+        if (this.keys['d'] || this.keys['arrowright']) moveX += 1;
+
+        if (moveX !== 0 && moveY !== 0) {
+            moveX *= 0.707;
+            moveY *= 0.707;
         }
-        else if (this.keys['w'] && this.keys['a']) this.localPlayer.move(225);
-        else if (this.keys['s'] && this.keys['d']) this.localPlayer.move(45);
-        else if (this.keys['s'] && this.keys['a']) this.localPlayer.move(135);
-        else if (this.keys['w']) this.localPlayer.move(270);
-        else if (this.keys['s']) this.localPlayer.move(90);
-        else if (this.keys['a']) this.localPlayer.move(180);
-        else if (this.keys['d']) this.localPlayer.move(0);
+
+        if (moveX !== 0 || moveY !== 0) {
+            console.log("Moving player:", moveX, moveY);
+            this.localPlayer.move(moveX, moveY);
+        }
+
+        this.cameraX = this.canvas.width/2 - this.localPlayer.x;
+        this.cameraY = this.canvas.height/2 - this.localPlayer.y;
     }
 
     draw() {
-        // Clear canvas
+        if (!this.ctx) {
+            console.error("No context available");
+            return;
+        }
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw all players
-        this.players.forEach((player, index) => {
-            console.log(`Drawing player ${index}:`, player);
-            player.draw(this.ctx);
-        });
+        this.ctx.save();
+        this.ctx.translate(Math.floor(this.cameraX), Math.floor(this.cameraY));
+        
+        // Draw map
+        this.map.draw(this.ctx);
+        
+        // Draw player
+        console.log("Drawing player at:", this.localPlayer.x, this.localPlayer.y);
+        this.ctx.fillStyle = this.localPlayer.role === 'student' ? '#0000FF' : '#FF0000';
+        this.ctx.fillRect(
+            Math.floor(this.localPlayer.x - this.localPlayer.size/2),
+            Math.floor(this.localPlayer.y - this.localPlayer.size/2),
+            this.localPlayer.size,
+            this.localPlayer.size
+        );
+        
+        this.ctx.restore();
+
+        // Draw UI elements after restore
+        this.localPlayer.drawUI(this.ctx);
     }
 
     gameLoop() {
@@ -81,17 +106,8 @@ class GameManager {
     }
 }
 
-// Make sure DOM is loaded before starting game
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM loaded, starting game...");
-    window.gameInstance = new GameManager();
-});
-
-// Backup initialization in case DOMContentLoaded doesn't fire
+// Ensure game only starts after window loads
 window.onload = () => {
-    console.log("Window loaded...");
-    if (!window.gameInstance) {
-        console.log("No game instance found, creating one...");
-        window.gameInstance = new GameManager();
-    }
+    console.log("Window loaded, creating game");
+    new GameManager();
 };
