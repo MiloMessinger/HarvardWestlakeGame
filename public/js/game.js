@@ -7,30 +7,31 @@ class GameManager {
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
         
-        this.map = new Map();
-        const spawnPoint = this.map.getRandomSpawnPoint();
-        this.localPlayer = new Player(spawnPoint.x, spawnPoint.y, Math.random() < 0.2 ? 'teacher' : 'student');
-        this.players = [this.localPlayer];
-
-        this.cameraX = 0;
-        this.cameraY = 0;
+        // Initialize texture loader first
+        this.textureLoader = new TextureLoader();
+        this.textureLoader.loadAllTextures();
         
+        // Initialize other properties
         this.keys = {};
-        this.isPaused = true;  // Start paused
-        this.setupInputs();
-        this.gameLoop();
-    }
-
-    start(username) {
-        this.localPlayer.username = username;
-        this.isPaused = false;
-        console.log("Game started with username:", username);
-    }
-
-    pause() {
         this.isPaused = true;
-        // Clear all pressed keys when pausing
-        this.keys = {};
+        
+        // Wait for textures to load before creating map
+        this.startGameWhenLoaded();
+
+        // Setup start button listener
+        this.setupStartButton();
+    }
+
+    setupStartButton() {
+        const startButton = document.getElementById('startButton');
+        startButton.addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            if (username.trim() !== '') {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('gameCanvas').style.filter = 'none';
+                this.start(username);
+            }
+        });
     }
 
     resizeCanvas() {
@@ -38,9 +39,32 @@ class GameManager {
         this.canvas.height = window.innerHeight;
     }
 
+    startGameWhenLoaded() {
+        if (this.textureLoader.isLoaded()) {
+            console.log("Textures loaded, initializing game...");
+            this.initializeGame();
+        } else {
+            requestAnimationFrame(() => this.startGameWhenLoaded());
+        }
+    }
+
+    initializeGame() {
+        // Initialize map after textures are loaded
+        this.map = new Map(this.textureLoader);
+        
+        const spawnPoint = this.map.getRandomSpawnPoint();
+        this.localPlayer = new Player(spawnPoint.x, spawnPoint.y, Math.random() < 0.2 ? 'teacher' : 'student');
+        this.players = [this.localPlayer];
+
+        this.cameraX = 0;
+        this.cameraY = 0;
+        
+        this.setupInputs();
+        this.gameLoop();
+    }
+
     setupInputs() {
         window.addEventListener('keydown', (e) => {
-            // Only handle game inputs if not paused
             if (!this.isPaused) {
                 this.keys[e.key.toLowerCase()] = true;
                 
@@ -69,13 +93,22 @@ class GameManager {
         });
 
         window.addEventListener('keyup', (e) => {
-            if (!this.isPaused) {
-                this.keys[e.key.toLowerCase()] = false;
-            }
+            this.keys[e.key.toLowerCase()] = false;
         });
     }
 
+    start(username) {
+        console.log("Starting game with username:", username);
+        if (this.localPlayer) {
+            this.localPlayer.setUsername(username);
+            this.isPaused = false;
+            console.log("Game started, isPaused:", this.isPaused);
+        }
+    }
+
     update() {
+        if (this.isPaused) return;
+
         let moveX = 0;
         let moveY = 0;
         
@@ -104,12 +137,12 @@ class GameManager {
         this.ctx.save();
         this.ctx.translate(Math.floor(this.cameraX), Math.floor(this.cameraY));
         
-        // Draw map with its own context state
+        // Draw map
         this.map.draw(this.ctx);
         
-        // Draw all players with their usernames
+        // Draw all players
         this.players.forEach(player => {
-            player.draw(this.ctx, {x: this.cameraX, y: this.cameraY});
+            player.draw(this.ctx);
         });
         
         this.ctx.restore();

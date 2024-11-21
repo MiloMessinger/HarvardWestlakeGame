@@ -68,29 +68,12 @@
         <div class="login-box">
             <input type="text" id="username" placeholder="Enter username">
             <br>
-            <button onclick="startGame()">Play</button>
+            <button id="startButton">Play</button>
         </div>
     </div>
-    <script src="js/items.js"></script>
+    <script src="js/textureLoader.js"></script>
     <script src="js/map.js"></script>
     <script src="js/player.js"></script>
     <script src="js/game.js"></script>
-    <script>
-        let game;
-        
-        window.onload = () => {
-            game = new GameManager();
-            game.pause();
-        };
-
-        function startGame() {
-            const username = document.getElementById('username').value;
-            if (username.trim() !== '') {
-                document.getElementById('loginOverlay').classList.add('hidden');
-                document.getElementById('gameCanvas').style.filter = 'none';
-                game.start(username);
-            }
-        }
-    </script>
 </body>
 </html>
