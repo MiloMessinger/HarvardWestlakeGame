@@ -97,6 +97,45 @@ class GameManager {
         });
     }
 
+    handleInteraction() {
+        const interactionRadius = 30;
+        
+        // First, check for door interactions
+        for (let room of this.map.rooms) {
+            for (let door of room.doors) {
+                const doorCenterX = door.x + door.width/2;
+                const doorCenterY = door.y + door.height/2;
+                
+                const dx = this.localPlayer.x - doorCenterX;
+                const dy = this.localPlayer.y - doorCenterY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < interactionRadius) {
+                    door.isOpen = !door.isOpen;
+                    console.log(`Door ${door.isOpen ? 'opened' : 'closed'}`);
+                    return;
+                }
+            }
+        }
+
+        // Then check for item pickups
+        const nearbyObjects = this.map.interactables.filter(obj => {
+            const dx = obj.x - this.localPlayer.x;
+            const dy = obj.y - this.localPlayer.y;
+            return Math.sqrt(dx * dx + dy * dy) < interactionRadius;
+        });
+
+        if (nearbyObjects.length > 0) {
+            const object = nearbyObjects[0];
+            if (object.items && object.items.length > 0) {
+                const item = object.items[Math.floor(Math.random() * object.items.length)];
+                if (this.localPlayer.pickUpItem(item)) {
+                    console.log(`Picked up ${item}`);
+                }
+            }
+        }
+    }
+
     start(username) {
         console.log("Starting game with username:", username);
         if (this.localPlayer) {
