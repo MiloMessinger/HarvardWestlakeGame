@@ -77,3 +77,11 @@
 - More complex crafting system
 
 ---
+
+# Next Steps
+
+1. Work on adding some items to make the game interesting (perferably useable items)
+2. Expand the map a little bit
+3. Add a win/lose condition, or at least a round timer.
+4. Work on implementing multiplayer. I would recommend asking Theiss to set up a server rather than trying to use firebase realtime database.
+5. Keep working on expanding game features (larger and more detailed map, more items, etc).
