@@ -77,6 +77,93 @@ Item.registerItem('ruler', {
     modifiable: true
 });
 
+// Register additional items
+
+// Allowed items
+Item.registerItem('laptop', {
+    name: 'Laptop',
+    category: Item.categories.ALLOWED,
+    description: 'A standard school-issued laptop',
+    useAction: (player) => {
+        console.log(`${player.name} is typing on the laptop.`);
+        return true;
+    }
+});
+
+Item.registerItem('notebook', {
+    name: 'Notebook',
+    category: Item.categories.ALLOWED,
+    description: 'A spiral-bound notebook',
+    stackable: true,
+    maxStack: 5
+});
+
+// Forbidden items
+Item.registerItem('knife', {
+    name: 'Knife',
+    category: Item.categories.FORBIDDEN,
+    description: 'A sharp blade, potentially dangerous',
+    useAction: (player) => {
+        console.log(`${player.name} is wielding a knife.`);
+        return true;
+    }
+});
+
+Item.registerItem('explosive', {
+    name: 'Explosive',
+    category: Item.categories.FORBIDDEN,
+    description: 'A small but powerful homemade explosive',
+    useAction: (player) => {
+        console.log(`${player.name} is handling an explosive!`);
+        return true;
+    }
+});
+
+// Craftable items
+Item.registerItem('makeshift-knife', {
+    name: 'Makeshift Knife',
+    category: Item.categories.FORBIDDEN,
+    description: 'A sharp weapon crafted from school supplies',
+    craftable: true,
+    craftingRecipe: ['ruler', 'pencil'],
+    useAction: (player) => {
+        console.log(`${player.name} crafted a makeshift knife.`);
+        return true;
+    }
+});
+
+Item.registerItem('chemical-explosive', {
+    name: 'Chemical Explosive',
+    category: Item.categories.FORBIDDEN,
+    description: 'A dangerous explosive created from chemistry supplies',
+    craftable: true,
+    craftingRecipe: ['chemicals', 'paper'],
+    useAction: (player) => {
+        console.log(`${player.name} crafted a chemical explosive!`);
+        return true;
+    }
+});
+
+// Room-specific modification examples
+Item.registerItem('chemicals', {
+    name: 'Chemicals',
+    category: Item.categories.ALLOWED,
+    description: 'A set of basic lab chemicals',
+    modifiable: true,
+    useAction: (player) => {
+        console.log(`${player.name} is using chemicals in the lab.`);
+        return true;
+    }
+});
+
+Item.registerItem('spray-paint', {
+    name: 'Spray Paint',
+    category: Item.categories.FORBIDDEN,
+    description: 'Spray paint used for graffiti',
+    modifiable: true
+});
+
+
 // Example of how to add more items later:
 /*
 Item.registerItem('scissors', {
