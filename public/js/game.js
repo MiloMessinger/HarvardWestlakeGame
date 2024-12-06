@@ -20,7 +20,54 @@ class GameManager {
 
         // Setup start button listener
         this.setupStartButton();
+
+        this.setupInteractionDialog();
     }
+
+    setupInteractionDialog() {
+        // Create dialog container
+        const dialogContainer = document.createElement('div');
+        dialogContainer.id = 'interactionDialog';
+        dialogContainer.style.cssText = `
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+            text-align: center;
+        `;
+        document.body.appendChild(dialogContainer);
+    
+        // Create dialog elements
+        const titleElement = document.createElement('h2');
+        titleElement.id = 'interactionTitle';
+        dialogContainer.appendChild(titleElement);
+    
+        const descriptionElement = document.createElement('p');
+        descriptionElement.id = 'interactionDescription';
+        dialogContainer.appendChild(descriptionElement);
+    
+        const hotbarButton = document.createElement('button');
+        hotbarButton.textContent = 'Add to Hotbar';
+        hotbarButton.onclick = () => this.addItemToHotbar();
+        dialogContainer.appendChild(hotbarButton);
+    
+        const backpackButton = document.createElement('button');
+        backpackButton.textContent = 'Add to Backpack';
+        backpackButton.onclick = () => this.addItemToBackpack();
+        dialogContainer.appendChild(backpackButton);
+    
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.onclick = () => this.closeInteractionDialog();
+        dialogContainer.appendChild(cancelButton);
+    }
+    
 
     setupStartButton() {
         const startButton = document.getElementById('startButton');
