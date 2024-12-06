@@ -163,6 +163,52 @@ Item.registerItem('spray-paint', {
     modifiable: true
 });
 
+// Add new items for specialized rooms
+Item.registerItem('lab-notebook', {
+    name: 'Lab Notebook',
+    category: Item.categories.ALLOWED,
+    description: 'A specialized notebook for scientific observations',
+    stackable: true,
+    maxStack: 3,
+    craftable: true,
+    craftingRecipe: ['paper', 'pencil']
+});
+
+Item.registerItem('safety-goggles', {
+    name: 'Safety Goggles',
+    category: Item.categories.ALLOWED,
+    description: 'Protective eyewear for lab work',
+    modifiable: true,
+    useAction: (player) => {
+        console.log(`${player.name} puts on safety goggles`);
+        return true;
+    }
+});
+
+Item.registerItem('art-canvas', {
+    name: 'Art Canvas',
+    category: Item.categories.ALLOWED,
+    description: 'A blank canvas for artistic creation',
+    stackable: true,
+    maxStack: 2,
+    craftable: true,
+    useAction: (player) => {
+        console.log(`${player.name} prepares to paint`);
+        return true;
+    }
+});
+
+Item.registerItem('robotics-kit', {
+    name: 'Robotics Kit',
+    category: Item.categories.ALLOWED,
+    description: 'A basic robotics component set',
+    craftable: true,
+    craftingRecipe: ['chemicals', 'laptop'],
+    useAction: (player) => {
+        console.log(`${player.name} is working on a robotics project`);
+        return true;
+    }
+});
 
 // Example of how to add more items later:
 /*
