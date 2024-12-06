@@ -30,6 +30,7 @@
 ---
 
 ### Next Implementation Phase 
+- Attempted completion except for F key not working
 
 #### Items Implementation
 **Priority:** P1
