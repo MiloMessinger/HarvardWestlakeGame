@@ -50,6 +50,72 @@ class Map {
                     {x: 640, y: 400, width: 40, height: 8, isOpen: false}
                 ],
                 name: "Room 104"
+            },
+            {
+                x: 100,
+                y: 700,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 240, y: 700, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 105"
+            },
+            {
+                x: 500,
+                y: 700,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 640, y: 700, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 106"
+            },
+            {
+                x: 900,
+                y: 100,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1040, y: 300, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 107"
+            },
+            {
+                x: 900,
+                y: 400,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1040, y: 400, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 108"
+            },
+            {
+                x: 900,
+                y: 700,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1040, y: 700, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 109"
+            },
+            {
+                x: 1300,
+                y: 400,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1440, y: 400, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 110"
             }
         ];
 
