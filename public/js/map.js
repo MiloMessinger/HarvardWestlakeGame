@@ -50,6 +50,72 @@ class Map {
                     {x: 640, y: 400, width: 40, height: 8, isOpen: false}
                 ],
                 name: "Room 104"
+            },
+            {
+                x: 100,
+                y: 700,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 240, y: 700, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 105"
+            },
+            {
+                x: 500,
+                y: 700,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 640, y: 700, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 106"
+            },
+            {
+                x: 900,
+                y: 100,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1040, y: 300, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 107"
+            },
+            {
+                x: 900,
+                y: 400,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1040, y: 400, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 108"
+            },
+            {
+                x: 900,
+                y: 700,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1040, y: 700, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 109"
+            },
+            {
+                x: 1300,
+                y: 400,
+                width: 300,
+                height: 200,
+                type: 'classroom',
+                doors: [
+                    {x: 1440, y: 400, width: 40, height: 8, isOpen: false}
+                ],
+                name: "Room 110"
             }
         ];
 
@@ -61,8 +127,31 @@ class Map {
         this.walls = this.generateWalls();
 
         this.interactables = [
-            {x: 150, y: 150, type: 'desk', items: ['pencil', 'paper']}
-        ];
+            {x: 150, y: 150, type: 'desk', items: ['pencil', 'paper']},
+              // Room 105 interactables
+            {x: 150, y: 750, type: 'desk', items: ['notebook', 'ruler']},
+            {x: 250, y: 850, type: 'shelf', items: ['lab-notebook', 'safety-goggles']},
+            
+            // Room 106 interactables
+            {x: 550, y: 750, type: 'desk', items: ['laptop', 'chemicals']},
+            {x: 650, y: 850, type: 'shelf', items: ['art-canvas', 'spray-paint']},
+            
+            // Room 107 interactables
+            {x: 950, y: 150, type: 'desk', items: ['robotics-kit', 'pencil']},
+            {x: 1050, y: 250, type: 'shelf', items: ['chemicals', 'ruler']},
+            
+            // Room 108 interactables
+            {x: 950, y: 450, type: 'desk', items: ['knife', 'paper']},
+            {x: 1050, y: 550, type: 'shelf', items: ['explosive', 'makeshift-knife']},
+            
+            // Room 109 interactables
+            {x: 950, y: 750, type: 'desk', items: ['makeshift-knife', 'chemical-explosive']},
+            {x: 1050, y: 850, type: 'shelf', items: ['spray-paint', 'chemicals']},
+            
+            // Room 110 interactables
+            {x: 1350, y: 450, type: 'desk', items: ['safety-goggles', 'lab-notebook']},
+            {x: 1450, y: 550, type: 'shelf', items: ['robotics-kit', 'art-canvas']}
+        ];  
     }
 
     generateWalls() {
@@ -228,7 +317,7 @@ class Map {
 
         // Draw interactables
         for (let obj of this.interactables) {
-            ctx.fillStyle = '#999';
+            ctx.fillStyle = '#255';
             ctx.fillRect(obj.x - 10, obj.y - 10, 20, 20);
         }
 

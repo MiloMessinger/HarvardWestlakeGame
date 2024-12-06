@@ -20,7 +20,54 @@ class GameManager {
 
         // Setup start button listener
         this.setupStartButton();
+
+        this.setupInteractionDialog();
     }
+
+    setupInteractionDialog() {
+        // Create dialog container
+        const dialogContainer = document.createElement('div');
+        dialogContainer.id = 'interactionDialog';
+        dialogContainer.style.cssText = `
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+            text-align: center;
+        `;
+        document.body.appendChild(dialogContainer);
+    
+        // Create dialog elements
+        const titleElement = document.createElement('h2');
+        titleElement.id = 'interactionTitle';
+        dialogContainer.appendChild(titleElement);
+    
+        const descriptionElement = document.createElement('p');
+        descriptionElement.id = 'interactionDescription';
+        dialogContainer.appendChild(descriptionElement);
+    
+        const hotbarButton = document.createElement('button');
+        hotbarButton.textContent = 'Add to Hotbar';
+        hotbarButton.onclick = () => this.addItemToHotbar();
+        dialogContainer.appendChild(hotbarButton);
+    
+        const backpackButton = document.createElement('button');
+        backpackButton.textContent = 'Add to Backpack';
+        backpackButton.onclick = () => this.addItemToBackpack();
+        dialogContainer.appendChild(backpackButton);
+    
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.onclick = () => this.closeInteractionDialog();
+        dialogContainer.appendChild(cancelButton);
+    }
+    
 
     setupStartButton() {
         const startButton = document.getElementById('startButton');
@@ -129,12 +176,59 @@ class GameManager {
             const object = nearbyObjects[0];
             if (object.items && object.items.length > 0) {
                 const item = object.items[Math.floor(Math.random() * object.items.length)];
-                if (this.localPlayer.pickUpItem(item)) {
-                    console.log(`Picked up ${item}`);
-                }
+                this.showInteractionDialog(item);
             }
         }
     }
+
+    showInteractionDialog(itemId) {
+        const item = Item.getItem(itemId);
+        if (!item) return;
+    
+        const dialogContainer = document.getElementById('interactionDialog');
+        const titleElement = document.getElementById('interactionTitle');
+        const descriptionElement = document.getElementById('interactionDescription');
+    
+        titleElement.textContent = item.name;
+        descriptionElement.textContent = item.getDescription();
+    
+        // Store current item for later use
+        this.currentInteractionItem = itemId;
+    
+        dialogContainer.style.display = 'block';
+        this.canvas.style.filter = 'blur(5px)';
+    }
+
+    addItemToHotbar() {
+        if (this.currentInteractionItem) {
+            this.localPlayer.pickUpItem(this.currentInteractionItem);
+            this.closeInteractionDialog();
+        }
+    }
+    
+    addItemToBackpack() {
+        if (this.currentInteractionItem) {
+            const item = Item.getItem(this.currentInteractionItem);
+            // Force item to backpack if hotbar is full
+            const hotbarResult = this.localPlayer.pickUpItem(this.currentInteractionItem);
+            if (!hotbarResult) {
+                // If hotbar is full, add to backpack
+                const emptyBackpackSlot = this.localPlayer.backpack.findIndex(slot => slot === null);
+                if (emptyBackpackSlot !== -1) {
+                    this.localPlayer.backpack[emptyBackpackSlot] = this.currentInteractionItem;
+                }
+            }
+            this.closeInteractionDialog();
+        }
+    }
+    
+    closeInteractionDialog() {
+        const dialogContainer = document.getElementById('interactionDialog');
+        dialogContainer.style.display = 'none';
+        this.canvas.style.filter = 'none';
+        this.currentInteractionItem = null;
+    }
+    
 
     start(username) {
         console.log("Starting game with username:", username);
