@@ -317,7 +317,7 @@ class Map {
 
         // Draw interactables
         for (let obj of this.interactables) {
-            ctx.fillStyle = '#999';
+            ctx.fillStyle = '#000';
             ctx.fillRect(obj.x - 10, obj.y - 10, 20, 20);
         }
 
