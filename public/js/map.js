@@ -127,8 +127,31 @@ class Map {
         this.walls = this.generateWalls();
 
         this.interactables = [
-            {x: 150, y: 150, type: 'desk', items: ['pencil', 'paper']}
-        ];
+            {x: 150, y: 150, type: 'desk', items: ['pencil', 'paper']},
+              // Room 105 interactables
+            {x: 150, y: 750, type: 'desk', items: ['notebook', 'ruler']},
+            {x: 250, y: 850, type: 'shelf', items: ['lab-notebook', 'safety-goggles']},
+            
+            // Room 106 interactables
+            {x: 550, y: 750, type: 'desk', items: ['laptop', 'chemicals']},
+            {x: 650, y: 850, type: 'shelf', items: ['art-canvas', 'spray-paint']},
+            
+            // Room 107 interactables
+            {x: 950, y: 150, type: 'desk', items: ['robotics-kit', 'pencil']},
+            {x: 1050, y: 250, type: 'shelf', items: ['chemicals', 'ruler']},
+            
+            // Room 108 interactables
+            {x: 950, y: 450, type: 'desk', items: ['knife', 'paper']},
+            {x: 1050, y: 550, type: 'shelf', items: ['explosive', 'makeshift-knife']},
+            
+            // Room 109 interactables
+            {x: 950, y: 750, type: 'desk', items: ['makeshift-knife', 'chemical-explosive']},
+            {x: 1050, y: 850, type: 'shelf', items: ['spray-paint', 'chemicals']},
+            
+            // Room 110 interactables
+            {x: 1350, y: 450, type: 'desk', items: ['safety-goggles', 'lab-notebook']},
+            {x: 1450, y: 550, type: 'shelf', items: ['robotics-kit', 'art-canvas']}
+        ];  
     }
 
     generateWalls() {
