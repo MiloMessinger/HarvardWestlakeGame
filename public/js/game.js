@@ -201,22 +201,23 @@ class GameManager {
 
     addItemToHotbar() {
         if (this.currentInteractionItem) {
-            this.localPlayer.pickUpItem(this.currentInteractionItem);
+            const hotbarResult = this.localPlayer.pickUpItem(this.currentInteractionItem);
+            if (hotbarResult) {
+                console.log("Added item to hotbar:", this.currentInteractionItem);
+            }
             this.closeInteractionDialog();
         }
     }
     
     addItemToBackpack() {
         if (this.currentInteractionItem) {
-            const item = Item.getItem(this.currentInteractionItem);
-            // Force item to backpack if hotbar is full
-            const hotbarResult = this.localPlayer.pickUpItem(this.currentInteractionItem);
-            if (!hotbarResult) {
-                // If hotbar is full, add to backpack
-                const emptyBackpackSlot = this.localPlayer.backpack.findIndex(slot => slot === null);
-                if (emptyBackpackSlot !== -1) {
-                    this.localPlayer.backpack[emptyBackpackSlot] = this.currentInteractionItem;
-                }
+            // Directly try to add to backpack instead of using pickUpItem
+            const emptyBackpackSlot = this.localPlayer.backpack.findIndex(slot => slot === null);
+            if (emptyBackpackSlot !== -1) {
+                this.localPlayer.backpack[emptyBackpackSlot] = this.currentInteractionItem;
+                console.log("Added item to backpack slot:", emptyBackpackSlot);
+            } else {
+                console.log("Backpack is full");
             }
             this.closeInteractionDialog();
         }

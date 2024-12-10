@@ -1,5 +1,22 @@
+// Debug the Map object itself
+console.log("Initial Map check:", {
+    mapExists: typeof Map !== 'undefined',
+    mapConstructor: Map.toString(),
+    isMapFunction: typeof Map === 'function'
+});
+
+// Create a simple registry object
+const itemRegistry = {
+    items: {},
+    set: function(key, value) {
+        this.items[key] = value;
+    },
+    get: function(key) {
+        return this.items[key];
+    }
+};
+
 class Item {
-    static registry = new Map();
     static categories = {
         ALLOWED: 'allowed',
         FORBIDDEN: 'forbidden'
@@ -19,8 +36,8 @@ class Item {
         this.craftingRecipe = config.craftingRecipe || null;
         this.modifiable = config.modifiable || false;
         
-        // Register the item
-        Item.registry.set(id, this);
+        // Register the item using our simple registry
+        itemRegistry.set(id, this);
     }
 
     static registerItem(id, config) {
@@ -28,7 +45,7 @@ class Item {
     }
 
     static getItem(id) {
-        return Item.registry.get(id);
+        return itemRegistry.get(id);
     }
 
     use(player) {
@@ -209,17 +226,3 @@ Item.registerItem('robotics-kit', {
         return true;
     }
 });
-
-// Example of how to add more items later:
-/*
-Item.registerItem('scissors', {
-    name: 'Scissors',
-    category: Item.categories.ALLOWED,
-    description: 'Safety scissors',
-    modifiable: true,
-    useAction: (player) => {
-        console.log('Cutting with scissors');
-        return true;
-    }
-});
-*/
