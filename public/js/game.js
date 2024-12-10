@@ -22,6 +22,102 @@ class GameManager {
         this.setupStartButton();
 
         this.setupInteractionDialog();
+
+        this.canvas.addEventListener('click', (e) => this.handleInventoryClick(e)); 
+    }
+
+    handleInventoryClick(e) {
+        if (!this.localPlayer.isBackpackOpen) return;
+
+        const rect = this.canvas.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+
+        // Constants for inventory UI (matching the ones in drawUI)
+        const slotSize = 40;
+        const margin = 5;
+        
+        // Hotbar position
+        const hotbarStartX = (this.canvas.width - (slotSize + margin) * this.localPlayer.hotbar.length) / 2;
+        const hotbarStartY = this.canvas.height - 60;
+
+        // Backpack position
+        const invColumns = 6;
+        const invRows = Math.ceil(this.localPlayer.backpack.length / invColumns);
+        const backpackWidth = (slotSize + margin) * invColumns + margin;
+        const backpackHeight = (slotSize + margin) * invRows + 50;
+        const backpackX = (this.canvas.width - backpackWidth) / 2;
+        const backpackY = (this.canvas.height - backpackHeight) / 2;
+
+        // Check if click is on hotbar
+        for (let i = 0; i < this.localPlayer.hotbar.length; i++) {
+            const slotX = hotbarStartX + i * (slotSize + margin);
+            const slotY = hotbarStartY;
+
+            if (clickX >= slotX && clickX < slotX + slotSize &&
+                clickY >= slotY && clickY < slotY + slotSize) {
+                this.moveItemToBackpack(i);
+                return;
+            }
+        }
+
+        // Check if click is on backpack
+        for (let i = 0; i < this.localPlayer.backpack.length; i++) {
+            const x = backpackX + margin + (i % invColumns) * (slotSize + margin);
+            const y = backpackY + 45 + Math.floor(i / invColumns) * (slotSize + margin);
+
+            if (clickX >= x && clickX < x + slotSize &&
+                clickY >= y && clickY < y + slotSize) {
+                this.moveItemToHotbar(i);
+                return;
+            }
+        }
+    }
+
+    moveItemToBackpack(hotbarIndex) {
+        const hotbarItem = this.localPlayer.hotbar[hotbarIndex];
+        if (!hotbarItem) return; // No item to move
+
+        // Find empty backpack slot
+        const emptyBackpackSlot = this.localPlayer.backpack.findIndex(slot => slot === null);
+        if (emptyBackpackSlot !== -1) {
+            // Move item to backpack
+            this.localPlayer.backpack[emptyBackpackSlot] = hotbarItem;
+            this.localPlayer.hotbar[hotbarIndex] = null;
+            console.log(`Moved ${hotbarItem} from hotbar to backpack slot ${emptyBackpackSlot}`);
+        } else {
+            // Try to swap with first non-null backpack slot
+            const firstBackpackSlot = this.localPlayer.backpack.findIndex(slot => slot !== null);
+            if (firstBackpackSlot !== -1) {
+                const backpackItem = this.localPlayer.backpack[firstBackpackSlot];
+                this.localPlayer.backpack[firstBackpackSlot] = hotbarItem;
+                this.localPlayer.hotbar[hotbarIndex] = backpackItem;
+                console.log(`Swapped ${hotbarItem} with ${backpackItem}`);
+            } else {
+                console.log("Backpack is empty, cannot swap");
+            }
+        }
+    }
+
+    moveItemToHotbar(backpackIndex) {
+        const backpackItem = this.localPlayer.backpack[backpackIndex];
+        if (!backpackItem) return; // No item to move
+
+        // Find empty hotbar slot
+        const emptyHotbarSlot = this.localPlayer.hotbar.findIndex(slot => slot === null);
+        if (emptyHotbarSlot !== -1) {
+            // Move item to hotbar
+            this.localPlayer.hotbar[emptyHotbarSlot] = backpackItem;
+            this.localPlayer.backpack[backpackIndex] = null;
+            console.log(`Moved ${backpackItem} from backpack to hotbar slot ${emptyHotbarSlot}`);
+        } else {
+            // Try to swap with selected hotbar slot
+            const selectedSlot = this.localPlayer.selectedSlot;
+            const hotbarItem = this.localPlayer.hotbar[selectedSlot];
+            this.localPlayer.hotbar[selectedSlot] = backpackItem;
+            this.localPlayer.backpack[backpackIndex] = hotbarItem;
+            console.log(`Swapped ${backpackItem} with ${hotbarItem}`);
+        }
     }
 
     setupInteractionDialog() {
